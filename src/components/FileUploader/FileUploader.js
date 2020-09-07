@@ -53,16 +53,28 @@ class FileUploader extends Component {
 
             // force positive numbers
             if (mapping.force_positive === true) {
-              console.log(value);
               if (typeof(value) == 'string') value = value.replace('-', '');
               if ((typeof(value) == 'float' || typeof(value) == 'integer') && value <0 ) value = value * -1;
             }
-            console.log(value);
+
+            if (this.template.name === 'postfinance_debit_ynab' && value) {
+              // field regex cleaning
+              const index = value.indexOf('XXXX0849');
+              if (index > -1) {
+                value = value.substring(index + 9);
+              }
+
+              const index2 = value.indexOf('COMMUNICATIONS:');
+              if (index2 > -1) {
+                value = value.substring(index2 + 15);
+              }
+            }
 
             temp[mapping.to] = value;
             if (mapping.required && !item[mapping.from]) {
               validated = false;
             }
+
           });
           if(validated) data.push(temp);
         }
@@ -72,6 +84,8 @@ class FileUploader extends Component {
       fields: fields,
       data: data
     };
+
+    console.log(object);
 
     const finalResult = papa.unparse(object);
     const blob = new Blob([finalResult], {type: "text/csv;charset=utf-8"});
