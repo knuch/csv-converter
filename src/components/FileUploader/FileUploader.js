@@ -68,6 +68,12 @@ class FileUploader extends Component {
               if (index2 > -1) {
                 value = value.substring(index2 + 15);
               }
+
+              const isTwint = value.indexOf('TWINT');
+              if (isTwint > -1) {
+                const regex = /(?:\+41[1-9]*)(.*)/
+                value = 'twint - ' + regex.exec(value)[1];
+              }
             }
 
             temp[mapping.to] = value;
@@ -84,8 +90,6 @@ class FileUploader extends Component {
       fields: fields,
       data: data
     };
-
-    console.log(object);
 
     const finalResult = papa.unparse(object);
     const blob = new Blob([finalResult], {type: "text/csv;charset=utf-8"});
