@@ -20,12 +20,12 @@ class FileUploader extends Component {
   }
 
   onDrop(acceptedFiles, rejectedFiles) {
-    if(acceptedFiles[0]) {
+    const files = [...acceptedFiles, ...rejectedFiles];
+
+    if(files[0]) {
           this.setState({
       selectingTemplate: true,
-      currentFile: acceptedFiles[0]});
-    } else {
-      this.handleError('No file could be validated');
+      currentFile: files[0]});
     }
   };
 
@@ -116,7 +116,7 @@ class FileUploader extends Component {
           }) }
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => this.closeModal()} type="danger">Close</Button>
+          <Button onClick={() => this.closeModal()} type="button" variant="danger">Close</Button>
         </ModalFooter>
       </Modal>
     </div>

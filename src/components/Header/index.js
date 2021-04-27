@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Grid, Row, Col, Button } from 'react-bootstrap'; 
+import { Navbar, Grid, Row, Col } from 'react-bootstrap'; 
 import FileUploader from '../FileUploader/FileUploader';
 
 const Header = (props) => {
