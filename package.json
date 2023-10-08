@@ -2,6 +2,7 @@
   "name": "csv-converter",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://knuch.github.io/csv-converter",
   "dependencies": {
     "file-saver": "1.3.8",
     "papaparse": "4.5.0",
@@ -15,6 +16,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
   }
 }
