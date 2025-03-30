@@ -58,6 +58,18 @@ class FileUploader extends Component {
         this.template.mapping.forEach((mapping) => {
           let value = item[mapping.from];
 
+          // allow value filtering to ignore some lines
+          if (mapping.validator) {
+            let validatorPasses = false
+            if (typeof value === "string") {
+              let parsed = parseFloat(value)
+              validatorPasses = mapping.validator(parsed)
+            }
+
+            if (typeof value === "number") validatorPasses = mapping.validator(value)
+            if(validatorPasses) return
+          }
+
           // force positive numbers
           if (mapping.force_positive === true) {
             if (typeof value === "string") value = value.replace("-", "");
@@ -88,6 +100,10 @@ class FileUploader extends Component {
                 value = value.substring(index2 + 15);
               }
             }
+          }
+
+          if (mapping.formatter) {
+            value = mapping.formatter(value)
           }
 
           temp[mapping.to] = value;
