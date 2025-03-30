@@ -5,30 +5,30 @@ export default {
   buttonStyle: "success",
   mapping: [
     {
-      from: 0,
+      from: 2,
       to: 0,
       header: "Date",
       required: true,
     },
     {
-      from: 1,
+      from: 3,
       to: 1,
       header: "Payee",
       required: true,
     },
     {
-      from: 99,
+      from: 6,
       to: 2,
       header: "Memo",
     },
     {
-      from: 2,
+      from: 4,
       to: 4,
       header: "Outflow",
       force_positive: true,
     },
     {
-      from: 3,
+      from: 5,
       to: 3,
       header: "Inflow",
       force_positive: true,

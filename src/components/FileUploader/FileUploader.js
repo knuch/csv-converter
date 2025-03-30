@@ -1,16 +1,16 @@
+import FileSaver from "file-saver";
+import papa from "papaparse";
 import React, { Component } from "react";
-import Dropzone from "react-dropzone";
 import {
   Alert,
+  Button,
   Modal,
   ModalBody,
-  Button,
-  ModalHeader,
   ModalFooter,
+  ModalHeader,
 } from "react-bootstrap";
+import Dropzone from "react-dropzone";
 import templates from "../../data/templates";
-import papa from "papaparse";
-import FileSaver from "file-saver";
 
 class FileUploader extends Component {
   constructor(props) {
@@ -66,20 +66,27 @@ class FileUploader extends Component {
 
           if (this.template.name === "postfinance_debit_ynab" && value) {
             // field regex cleaning
-            const index = value.indexOf("XXXX0849");
+            const index = value.indexOf("XXXX");
             if (index > -1) {
               value = value.substring(index + 9);
             }
 
-            const index2 = value.indexOf("COMMUNICATIONS:");
-            if (index2 > -1) {
-              value = value.substring(index2 + 15);
-            }
-
-            const isTwint = value.indexOf("TWINT");
-            if (isTwint > -1) {
-              const regex = /(?:\+41[1-9]*)(.*)/;
-              value = "twint - " + regex.exec(value)[1];
+            const isTwint = value.indexOf("TWINT") > -1;
+            if (isTwint) {
+              const isTwintReceive = value.indexOf("RÉCEPTION D'ARGENT TWINT");
+              if (isTwintReceive > -1) {
+                value = "twint in - " + value.substring(69, value.length);
+              }
+  
+              const isTwintPay = value.indexOf("ACHAT/PRESTATION TWINT");
+              if (isTwintPay > -1) {
+                value = "twint out - " + value.substring(37, value.length);
+              }
+            } else {
+              const index2 = value.indexOf("COMMUNICATIONS:");
+              if (index2 > -1) {
+                value = value.substring(index2 + 15);
+              }
             }
           }
 
